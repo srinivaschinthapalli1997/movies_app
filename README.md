@@ -2,6 +2,10 @@
 
 A new Flutter project.
 
+
+APK link : [app-release.apk copy.zip](https://github.com/user-attachments/files/18107145/app-release.apk.copy.zip)
+
+
 UI Design : 
 
 ![1000208223](https://github.com/user-attachments/assets/e66222bc-249b-4614-9250-afc3727c9246)
