@@ -3,8 +3,6 @@
 A new Flutter project.
 
 
-APK link : [app-release.apk copy.zip](https://github.com/user-attachments/files/18107145/app-release.apk.copy.zip)
-
 
 UI Design : 
 
