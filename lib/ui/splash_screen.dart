@@ -20,14 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Start the fade animation after a slight delay
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         _opacity = 1.0;
       });
     });
 
-    // Navigate to the next screen after the fade animation
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -55,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'assets/flutter_logo.png', // Your logo here
+                'assets/flutter_logo.png',
                 width: 100,
                 height: 100,
               ),

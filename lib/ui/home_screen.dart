@@ -9,6 +9,8 @@ import 'movie_details_screen.dart';
 
 
 
+
+
 class MovieListScreen extends StatefulWidget {
   const MovieListScreen({Key? key}) : super(key: key);
 
@@ -73,10 +75,9 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            onChanged: _filterMovies, // Trigger filtering
+            onChanged: _filterMovies,
           ),
         ),
-        // Movie List
         Expanded(
           child: BlocBuilder<MovieBloc, MovieState>(
             builder: (context, state) {
@@ -189,7 +190,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
       itemCount: movies.length,
       itemBuilder: (context, index) {
         final movie = movies[index];
-        final isFavorite = _favoriteMovies.value.contains(movie);
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -235,12 +235,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.grey,
-                  ),
-                  onPressed: () => _toggleFavorite(movie),
+                FavoriteIcon(
+                  movie: movie,
+                  isFavorite: _favoriteMovies.value.contains(movie),
+                  toggleFavorite: _toggleFavorite,
                 ),
               ],
             ),
@@ -250,6 +248,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
     );
   }
 
+
   void _toggleFavorite(Movie movie) {
     final currentFavorites = _favoriteMovies.value;
     if (currentFavorites.contains(movie)) {
@@ -257,6 +256,51 @@ class _MovieListScreenState extends State<MovieListScreen> {
     } else {
       currentFavorites.add(movie);
     }
-    _favoriteMovies.value = {...currentFavorites}; // Trigger rebuild
+    _favoriteMovies.value = {...currentFavorites};
+  }
+}
+
+
+class FavoriteIcon extends StatefulWidget {
+  final Movie movie;
+  final bool isFavorite;
+  final Function(Movie) toggleFavorite;
+
+  const FavoriteIcon({
+    Key? key,
+    required this.movie,
+    required this.isFavorite,
+    required this.toggleFavorite,
+  }) : super(key: key);
+
+  @override
+  _FavoriteIconState createState() => _FavoriteIconState();
+}
+
+class _FavoriteIconState extends State<FavoriteIcon> {
+  late bool _isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.isFavorite;
+  }
+
+  void _onFavoritePressed() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    widget.toggleFavorite(widget.movie);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        _isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: _isFavorite ? Colors.red : Colors.grey,
+      ),
+      onPressed: _onFavoritePressed,
+    );
   }
 }
